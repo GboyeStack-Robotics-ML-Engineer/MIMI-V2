@@ -96,10 +96,10 @@ export const VoiceInterface = ({ onRiskUpdate }: VoiceInterfaceProps) => {
   // Use dedicated mic state instead of deriving from uiState
   const isRecording = isMicActive;
 
-  // The user's display name — fallback to "Mama" if not set or invalid
+  // The user's display name
   const userName = (currentUser?.name && currentUser.name.length >= 2 && /^[a-zA-Z\s\-']+$/.test(currentUser.name))
     ? currentUser.name
-    : 'Mama';
+    : 'there';
 
   // ─── Init session + greeting ────────────────────────────────────────
   useEffect(() => {
@@ -114,7 +114,7 @@ export const VoiceInterface = ({ onRiskUpdate }: VoiceInterfaceProps) => {
       ? getPreviousSessionContext(currentUser.userId)
       : undefined;
 
-    const greetingText = `Hello ${userName}! 👋 I'm MIMI, your personal maternal health companion. How you dey today, Mama? You feeling well?`;
+    const greetingText = `Hello ${userName}! 👋 I'm MIMI, your personal maternal health companion. How you dey today? You feeling well?`;
 
     addGreetingMessage(greetingText);
     initLiveSession(previousContext);

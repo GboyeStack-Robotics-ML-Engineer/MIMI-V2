@@ -46,10 +46,10 @@ export async function sendMessageToMIMI(
     if (!GEMINI_API_KEY) {
         // Fallback demo response when no API key
         const fallbackResponses = [
-            `How you dey today, ${userName || 'Mama'}? I dey check on you. You feel any headache or swelling?`,
-            "Sorry to hear that, Mama. E go better. How many days this don start? You see any blurry vision?",
+            `How you dey today, ${userName || 'there'}? I dey check on you. You feel any headache or swelling?`,
+            "Sorry to hear that. E go better. How many days this don start? You see any blurry vision?",
             "That's good news! Make sure you take your folic acid today. How your baby movement dey?",
-            "Okay, Mama. I wan ask — your feet or hands don swell at all recently?",
+            "Okay, I wan ask — your feet or hands don swell at all recently?",
         ];
         const response = fallbackResponses[Math.floor(Math.random() * fallbackResponses.length)];
         return { text: response, riskData: null };
@@ -89,7 +89,7 @@ export async function sendMessageToMIMI(
     }
 
     const data = await response.json();
-    const rawText = data.candidates?.[0]?.content?.parts?.[0]?.text || "Sorry Mama, I no fit hear you well. Try again?";
+    const rawText = data.candidates?.[0]?.content?.parts?.[0]?.text || "Sorry, I no fit hear you well. Try again?";
 
     const { cleanText, riskData } = extractRiskData(rawText);
     return { text: cleanText, riskData };

@@ -23,10 +23,11 @@ const io = new Server(server, {
 });
 
 io.on('connection', (socket) => {
-    console.log('User connected:', socket.id);
+    const userName = socket.handshake.query.userName || 'there';
+    console.log('User connected:', socket.id, 'Name:', userName);
 
     // Initialize Gemini Bridge for this user
-    const gemini = new GeminiLiveBridge(socket);
+    const gemini = new GeminiLiveBridge(socket, userName);
     gemini.connect();
 
     socket.emit('status', { status: 'connected', message: 'Gemini Live Ready' });

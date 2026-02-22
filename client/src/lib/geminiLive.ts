@@ -54,14 +54,16 @@ export class GeminiLiveSession {
     private readonly BUFFER_LOOKAHEAD = 0.2;
     private audioChunkCount = 0;
 
+    private userName: string;
     private intentionalDisconnect = false;
 
     constructor(
         callbacks: GeminiLiveSessionCallbacks,
-        userName = 'Mama',
+        userName = 'there',
         _previousContext?: string   // kept for API compat; server has its own system prompt
     ) {
         this.callbacks = callbacks;
+        this.userName = userName;
         log('Session created for user:', userName);
     }
 
@@ -90,13 +92,14 @@ export class GeminiLiveSession {
                 transports: ['websocket', 'polling'],
                 timeout: 10000,
                 reconnection: false, // We handle reconnect manually
+                query: { userName: this.userName }
             });
 
             this.socket = socket;
 
             // ── Socket.IO lifecycle ──────────────────────────────────────
             socket.on('connect', () => {
-                log('✅ Socket.IO connected, waiting for Gemini status...');
+                log(`✅ Socket.IO connected for user: ${this.userName}, waiting for Gemini status...`);
             });
 
             // Server emits 'status' when Gemini bridge is ready (studyaid pattern)

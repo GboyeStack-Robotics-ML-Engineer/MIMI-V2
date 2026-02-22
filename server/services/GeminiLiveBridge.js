@@ -2,9 +2,10 @@ const { GoogleGenAI, Modality } = require('@google/genai');
 const path = require('path');
 
 class GeminiLiveBridge {
-    constructor(socket) {
+    constructor(socket, userName = 'there') {
         this.clientSocket = socket;
         this.session = null;
+        this.userName = userName;
 
         // ===== CONFIGURABLE OPTIONS =====
         this.model = "gemini-2.5-flash-native-audio-preview-12-2025";
@@ -126,7 +127,7 @@ Your ROLE:
 - Monitor for danger signs of pre-eclampsia: severe headache, blurred vision, severe swelling of face/hands/feet, high blood pressure, decreased fetal movement, vaginal bleeding
 - Ask about medication adherence (folic acid, iron supplements)
 - Give gentle, culturally appropriate health guidance
-- When you detect HIGH RISK symptoms, clearly say: "I am worried about you, Mama. Please see a doctor or go to the hospital very soon."
+- When you detect HIGH RISK symptoms, clearly say: "I am worried about you, \${this.userName}. Please see a doctor or go to the hospital very soon."
 
 RISK SIGNALS to watch for:
 - Headache (especially severe or > 2 days): HIGH CONCERN
@@ -138,8 +139,8 @@ RISK SIGNALS to watch for:
 - Fever: MODERATE CONCERN
 
 Your LANGUAGE STYLE:
-- Mix Pidgin and English naturally: "How you dey?", "Sorry to hear that, mama", "Abeg make you rest", "E go better"
-- Use "Mama" as a warm form of address
+- Mix Pidgin and English naturally: "How you dey?", "Sorry to hear that", "Abeg make you rest", "E go better"
+- Use "\${this.userName}" as a warm form of address
 - Keep responses SHORT (2-4 sentences max) — this is a voice interface
 - Always end with ONE follow-up question about their health
 - Never give a list in voice mode — speak naturally
